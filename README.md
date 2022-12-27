@@ -1,6 +1,6 @@
 # Ansible
 
-An ansible playbook for setting up a new Docker swarm cluster.
+An ansible playbook for setting up a new Docker Swarm cluster.
 
 ## Prerequisites
 
