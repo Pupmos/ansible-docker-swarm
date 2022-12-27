@@ -113,7 +113,7 @@ e.g.:
 
 ```console
 SWARM_ADDR=192.168.0.1 \
-join_existing=true \
+JOIN_EXISTING=true \
 DD_API_KEY=0gD04PXCnLk0CYNHdamJ7lylKs5uMZkJ \
 PROVIDER=ovhcloud \
 TARGET=1.2.3.5 \
