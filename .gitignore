@@ -1,0 +1,5 @@
+.DS_Store
+inventory/hosts
+group_vars/master.yml
+group_vars/worker.yml
+group_vars/snapshot.yml

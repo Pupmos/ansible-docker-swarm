@@ -1,0 +1,10 @@
+---
+- name: Worker
+  docker_swarm:
+    state: join
+    advertise_addr: "{{ advertise_addr }}:{{ swarm_port }}"
+    listen_addr: "{{ listen_addr }}:{{ swarm_port }}"
+    remote_addrs: "{{ remote_addrs.split(',') | list }}"
+    join_token: "{{ join_token }}"
+  when: node_type == "swarm_worker"
+  run_once: true

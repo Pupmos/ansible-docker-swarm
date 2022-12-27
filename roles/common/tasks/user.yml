@@ -1,0 +1,14 @@
+---
+- name: Disable the root user
+  user:
+    name: root
+    state: present
+    password_lock: true
+
+- name: Disable the debian user
+  user:
+    name: debian
+    state: present
+    password_lock: true
+    shell: "/sbin/nologin"
+  when: (provider is defined) and (provider == 'ovhcloud')

@@ -1,0 +1,11 @@
+- name: Swarm master
+  hosts: "{{ target }}"
+  become: true
+  roles:
+    - common
+    - setup
+    - initialize
+    - monitoring
+  vars:
+    node_type: swarm_master
+    join_existing: "false"

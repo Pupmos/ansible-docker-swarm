@@ -1,0 +1,9 @@
+---
+- include: join/master.yml
+  when: node_type == "swarm_master"
+
+- include: join/worker.yml
+  when: node_type == "swarm_worker"
+
+- include: join/snapshot.yml
+  when: node_type == "swarm_snapshot"

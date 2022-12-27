@@ -1,0 +1,11 @@
+- name: Swarm worker
+  hosts: "{{ target }}"
+  become: true
+  roles:
+    - common
+    - setup
+    - initialize
+    - monitoring
+  vars:
+    node_type: swarm_worker
+    join_existing: true

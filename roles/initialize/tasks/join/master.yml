@@ -1,0 +1,25 @@
+---
+- name: Primary
+  docker_swarm:
+    state: present
+    advertise_addr: "{{ advertise_addr }}:{{ swarm_port }}"
+    listen_addr: "{{ listen_addr }}:{{ swarm_port }}"
+  run_once: true
+  when: join_existing == "false"
+
+- name: Secondary
+  docker_swarm:
+    state: join
+    advertise_addr: "{{ advertise_addr }}:{{ swarm_port }}"
+    listen_addr: "{{ listen_addr }}:{{ swarm_port }}"
+    remote_addrs: "{{ remote_addrs.split(',') | list }}"
+    join_token: "{{ join_token }}"
+  run_once: true
+  when: join_existing == "true"
+
+- name: Node ID
+  shell: "docker node inspect self | jq -r '.[0].\"ID\"' | xargs"
+  register: node_id
+
+- name: Drain
+  shell: "docker node update --availability drain {{ node_id.stdout }}"

@@ -1,0 +1,3 @@
+[submodule "roles/monitoring"]
+	path = roles/monitoring
+	url = https://github.com/Pupmos/ansible-roles-monitoring

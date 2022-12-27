@@ -1,0 +1,74 @@
+---
+- name: Upgrade packages
+  apt:
+    upgrade: "yes"
+    update_cache: "yes"
+
+- name: Install packages
+  apt:
+    pkg:
+      - ntp
+      - curl
+      - screen
+      - wget
+      - software-properties-common
+      - apt-transport-https
+      - git
+      - build-essential
+      - liblz4-tool
+      - liblz4-dev
+      - jq
+      - iptables-persistent
+      - awscli
+      - cmake
+      - zstd
+      - bzip2
+      - rsync
+      - sysstat
+
+- name: Set timezone to UTC
+  community.general.timezone:
+    name: Etc/UTC
+
+- name: Remove packages
+  apt:
+    pkg:
+      - exim4-base
+      - unattended-upgrades
+    state: absent
+  when: (provider is defined) and (provider == "ovhcloud" or provider == "mevspace")
+
+- name: Copy limits.conf
+  copy:
+    src: "{{ role_path }}/files/limits.conf"
+    dest: /etc/security/limits.conf
+
+- name: Copy common-session
+  copy:
+    src: "{{ role_path }}/files/common-session"
+    dest: /etc/pam.d/common-session
+
+- name: Copy system.conf
+  copy:
+    src: "{{ role_path }}/files/system.conf"
+    dest: /etc/systemd/system.conf
+
+- name: Copy user.conf
+  copy:
+    src: "{{ role_path }}/files/user.conf"
+    dest: /etc/systemd/user.conf
+
+- name: Copy rsyslog
+  copy:
+    src: "{{ role_path }}/files/rsyslog"
+    dest: /etc/logrotate.d/rsyslog
+
+- name: Copy rules.v4
+  copy:
+    src: "{{ role_path }}/files/rules.v4"
+    dest: /etc/iptables/rules.v4
+
+- name: Restart iptables
+  command: echo "restart iptables"
+  notify: "restart iptables"
+

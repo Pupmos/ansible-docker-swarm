@@ -1,0 +1,6 @@
+---
+- name: Restart iptables
+  service:
+    name: iptables
+    state: restarted
+  listen: "restart iptables"
