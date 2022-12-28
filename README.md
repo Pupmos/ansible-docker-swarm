@@ -1,6 +1,6 @@
 # Pupmos/ansible-docker-swarm
 
-An Ansible playbook for setting up a new Docker Swarm cluster.
+An Ansible playbook for Docker Swarm clusters.
 
 ## Prerequisites
 
