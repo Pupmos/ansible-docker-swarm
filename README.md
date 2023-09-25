@@ -45,7 +45,6 @@ The following node types are supported:
 
 - [Master](MASTER.md)
 - [Worker](WORKER.md)
-- [Snapshot](SNAPSHOT.md)
 
 ## Todo
 

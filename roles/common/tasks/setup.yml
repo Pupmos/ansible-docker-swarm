@@ -25,6 +25,8 @@
       - bzip2
       - rsync
       - sysstat
+      - cron
+      - rsyslog
 
 - name: Set timezone to UTC
   community.general.timezone:
@@ -63,12 +65,20 @@
     src: "{{ role_path }}/files/rsyslog"
     dest: /etc/logrotate.d/rsyslog
 
-- name: Copy rules.v4
-  copy:
-    src: "{{ role_path }}/files/rules.v4"
-    dest: /etc/iptables/rules.v4
+- name: rules.v4
+  block:
+    - name: Check if rules.v4 exists
+      stat:
+        path: /etc/iptables/rules.v4
+      register: rules_v4
 
-- name: Restart iptables
-  command: echo "restart iptables"
-  notify: "restart iptables"
+    - name: Copy rules.v4
+      copy:
+        src: "{{ role_path }}/files/rules.v4"
+        dest: /etc/iptables/rules.v4
+      when: rules_v4.stat.exists == false
 
+    - name: Restart iptables
+      command: echo "restart iptables"
+      notify: "restart iptables"
+      when: rules_v4.stat.exists == false

@@ -6,35 +6,14 @@
       - ca-certificates
       - gnupg
       - lsb-release
-      - python3-pip
-
-- name: Remove existing docker gpg key
-  file:
-    path: /usr/share/keyrings/docker-archive-keyring.gpg
-    state: absent
-
-- name: Add docker gpg key
-  shell: curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-
-- name: Configure docker repository
-  shell: |
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] \
-    https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-- name: Install the docker python library
-  shell: pip3 install docker
+      - python3
+      - docker.io
+      - python3-docker
 
 - name: Upgrade packages
   apt:
     upgrade: "yes"
     update_cache: "yes"
-
-- name: Install docker
-  apt:
-    pkg:
-      - docker-ce=5:20.10.21~3-0~debian-bullseye
-      - docker-ce-cli=5:20.10.21~3-0~debian-bullseye
-      - containerd.io=1.6.16-1
 
 - name: Set docker to start on boot
   systemd:

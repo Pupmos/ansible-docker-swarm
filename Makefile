@@ -12,11 +12,12 @@ ifdef TARGET
 	TARGET_OPTS = '-l $(TARGET)'
 endif
 
+ifndef DRAIN
+	DRAIN='true'
+endif
+
 master:
-	@ansible-playbook -i inventory/hosts -e 'target=master $(JOIN_EXISTING_OPTS) advertise_addr=$(SWARM_ADDR) listen_addr=$(SWARM_ADDR) dd_api_key=$(DD_API_KEY) provider=$(PROVIDER)' $(TARGET_OPTS) master.yml
+	@ansible-playbook -i inventory/hosts -e 'target=master $(JOIN_EXISTING_OPTS) advertise_addr=$(SWARM_ADDR) listen_addr=$(SWARM_ADDR) dd_api_key=$(DD_API_KEY) provider=$(PROVIDER) drain=$(DRAIN)' $(TARGET_OPTS) master.yml
 
 worker:
 	@ansible-playbook -i inventory/hosts -e 'target=worker advertise_addr=$(SWARM_ADDR) listen_addr=$(SWARM_ADDR) dd_api_key=$(DD_API_KEY) provider=$(PROVIDER)' $(TARGET_OPTS) worker.yml
-
-snapshot:
-	@ansible-playbook -i inventory/hosts -e 'target=snapshot advertise_addr=$(SWARM_ADDR) listen_addr=$(SWARM_ADDR) dd_api_key=$(DD_API_KEY) provider=$(PROVIDER)' $(TARGET_OPTS) snapshot.yml
